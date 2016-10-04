@@ -3,6 +3,7 @@ package api
 import (
 	"github.com/sqdron/squad/util"
 	"net/url"
+	"fmt"
 )
 
 type github struct {
@@ -16,6 +17,7 @@ type IOAuthApi interface {
 }
 
 func (p *github) GetAuthUrl() string {
+	fmt.Println("GetAuthUrl...")
 	data := url.Values{}
 	data.Set("client_id", p.clientId)
 	data.Set("scope", "email repo")

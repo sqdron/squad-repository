@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/sqdron/squad"
 	"github.com/sqdron/squad-repository/api"
 	"github.com/sqdron/squad/configurator"
@@ -20,8 +19,6 @@ func main() {
 	cfg.ReadFlags(opts)
 	var squad = squad.Client(opts.EndpointUrl, opts.ApplicationId)
 	github := api.GithubAPI(opts.GithubClient, opts.GithubSecret)
-	fmt.Println(github)
-	squad.Api().Action("auth", github.GetAuthUrl)
-	//squad.api.request("auth", github.GetAuthUrl)
+	squad.Api("auth").Action(github.GetAuthUrl)
 	squad.Activate()
 }
