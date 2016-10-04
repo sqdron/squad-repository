@@ -1,0 +1,9 @@
+{
+  "app_id":"",
+  "app_secret": "",
+  "app_db" : "52.59.245.228:5984",
+  "app_endpoint":"nats://52.59.245.228:4222",
+  "github_client": "31cdb204cb11b6dbc1ed",
+  "github_secret": "c034303500c79d8e588cd48e549ab25674c3ab9e"
+
+}
