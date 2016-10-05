@@ -11,6 +11,7 @@ type Options struct {
 	ApplicationId string `json:"app_id" option:"Application Identity"`
 	GithubClient  string `json:"github_client" option:"Github Client ID"`
 	GithubSecret  string `json:"github_secret" option:"Github Client secret"`
+	GithubRedirect string `json:"github_redirect" option:"Github Redirect Url"`
 }
 
 func main() {
@@ -18,8 +19,11 @@ func main() {
 	cfg := configurator.New()
 	cfg.ReadFlags(opts)
 	var squad = squad.Client(opts.EndpointUrl, opts.ApplicationId)
-	github := api.GithubAPI(opts.GithubClient, opts.GithubSecret)
+
+	github := api.GithubAPI(opts.GithubClient, opts.GithubSecret, opts.GithubRedirect)
 	squad.Api("auth").Action(github.GetAuthUrl)
 	squad.Api("token").Action(github.GetToken)
+
+
 	squad.Activate()
 }
