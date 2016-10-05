@@ -11,9 +11,17 @@ type github struct {
 	clientSecret string
 }
 
+
+type RequestAuthToken struct {
+	ClientId string
+	ClientSecret string
+	Code string
+	RedirectUrl string
+}
+
 type IOAuthApi interface {
 	GetAuthUrl() string
-	GetToken() string
+	GetToken(RequestAuthToken) string
 }
 
 func (p *github) GetAuthUrl() string {
@@ -25,11 +33,12 @@ func (p *github) GetAuthUrl() string {
 	data.Set("redirect_uri", "bar")
 	u, _ := url.ParseRequestURI("https://github.com/login/oauth/authorize")
 	u.RawQuery = data.Encode()
+	fmt.Println("rrr "+ u.String())
 	return u.String()
 }
 
-func (p *github) GetToken() string {
-	return ""
+func (p *github) GetToken(r RequestAuthToken) string {
+	return fmt.Sprintf("%s %s %s %s", r.ClientId, r.ClientSecret, r.Code, r.RedirectUrl)
 }
 
 type Route struct {

@@ -1,0 +1,8 @@
+{
+  "app_id":"",
+  "app_secret": "",
+  "app_db" : "",
+  "app_endpoint":"",
+  "github_client": "",
+  "github_secret": ""
+}

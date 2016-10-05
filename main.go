@@ -20,5 +20,6 @@ func main() {
 	var squad = squad.Client(opts.EndpointUrl, opts.ApplicationId)
 	github := api.GithubAPI(opts.GithubClient, opts.GithubSecret)
 	squad.Api("auth").Action(github.GetAuthUrl)
+	squad.Api("token").Action(github.GetToken)
 	squad.Activate()
 }
