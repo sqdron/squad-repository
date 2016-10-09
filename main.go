@@ -4,6 +4,7 @@ import (
 	"github.com/sqdron/squad"
 	"github.com/sqdron/squad-repository/api"
 	"github.com/sqdron/squad/configurator"
+	"github.com/sqdron/squad-repository/service"
 )
 
 type Options struct {
@@ -18,12 +19,15 @@ func main() {
 	opts := &Options{}
 	cfg := configurator.New()
 	cfg.ReadFlags(opts)
+
+	providers := service.NewProviders()
+	providers.AddProvider("github", opts.GithubClient, opts.GithubSecret, opts.GithubRedirect)
+
 	var squad = squad.Client(opts.EndpointUrl, opts.ApplicationId)
 
-	github := api.GithubAPI(opts.GithubClient, opts.GithubSecret, opts.GithubRedirect)
-	squad.Api("auth").Action(github.GetAuthUrl)
-	squad.Api("token").Action(github.GetToken)
-
+	authApi := api.AuthAPI(providers)
+	squad.Api("AuthUrl").Action(authApi.GetAuthUrl)
+	squad.Api("token").Action(authApi.GetToken)
 
 	squad.Activate()
 }

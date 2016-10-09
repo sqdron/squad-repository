@@ -1,23 +1,30 @@
 package api
 
 import (
-	"github.com/sqdron/squad/util"
+	"github.com/sqdron/squad-repository/model"
+	"github.com/sqdron/squad-repository/service"
+	"time"
 	"net/url"
 	"fmt"
-	"time"
-	"net/http"
 	"strings"
 	"io/ioutil"
-	"github.com/sqdron/squad-repository/model"
 )
 
-type github struct {
-	clientId       string
-	clientSecret   string
-	clientRedirect string
+type IOAuthApi interface {
+	GetAuthUrl() string
+	GetToken(model.RequestAuthToken) string
 }
 
-func (p *github) GetAuthUrl() string {
+type authApi struct {
+	providers service.IAuthProvider
+}
+
+func AuthAPI(providers service.IAuthProvider) IOAuthApi {
+	return &authApi{providers}
+}
+
+
+func (p *authApi) GetAuthUrl(model.RequestAuth) string {
 	fmt.Println("GetAuthUrl...")
 	data := url.Values{}
 	data.Set("client_id", p.clientId)
@@ -29,7 +36,7 @@ func (p *github) GetAuthUrl() string {
 	return u.String()
 }
 
-func (p *github) GetToken(r model.RequestAuthToken) string {
+func (p *authApi) GetToken(r model.RequestAuthToken) string {
 	var client = &http.Client{
 		Timeout: time.Second * 10,
 	}

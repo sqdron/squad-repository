@@ -7,7 +7,7 @@ import (
 )
 
 func Test_Gtihub_Auth_URL(t *testing.T) {
-	g := GithubAPI("qwerty", "")
+	g := GithubAPI("qwerty", "", "")
 	Convey("Test Authorization URL", t, func() {
 		urlString := g.GetAuthUrl()
 		r, _ := url.Parse(urlString)
